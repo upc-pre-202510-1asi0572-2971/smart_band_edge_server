@@ -17,3 +17,6 @@ class AuthApplicationService:
     def get_or_create_test_device(self) -> Device:
         return self.device_repository.get_or_create_test_device()
 
+    def get_device_by_id_and_api_key(self, device_id: str, api_key: str) -> Optional[Device]:
+        return self.device_repository.find_by_id_and_api_key(device_id, api_key)
+
