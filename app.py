@@ -1,15 +1,26 @@
-"""
-
-"""
 from flask import Flask
 
-from iam.infrastructure.repositories import get_or_create_test_device
+import iam.application.services
+from health.interfaces.services import health_api
+from iam.interfaces.services import iam_api
 from shared.infrastructure.database import init_db
 
 app = Flask(__name__)
 
-init_db()
-get_or_create_test_device()
+app.register_blueprint(iam_api)
+app.register_blueprint(health_api)
+
+first_request = True
+
+@app.before_request
+def setup():
+    global first_request
+    if first_request:
+        first_request = False
+        # Initialize the database and create a test device on the first request
+        init_db()
+        auth_application_service = iam.application.services.AuthApplicationService()
+        auth_application_service.get_or_create_test_device()
 
 if __name__ == '__main__':
-    app.run(host="localhost", port=3000, debug=True)
+    app.run(debug=True)
