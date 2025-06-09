@@ -1,5 +1,4 @@
-from flask import request, jsonify
-from flask.sansio.blueprints import Blueprint
+from flask import Blueprint, request, jsonify
 
 from iam.application.services import AuthApplicationService
 
