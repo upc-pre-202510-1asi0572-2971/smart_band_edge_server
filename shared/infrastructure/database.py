@@ -3,8 +3,7 @@ Database initialization module for the Smart Band Edge Service.
 """
 from peewee import SqliteDatabase
 
-from health.infrastructure.models import HealthRecord
-from iam.infrastructure.models import Device
+
 
 # Initialize the database connection
 db = SqliteDatabase('smart_band.db')
@@ -17,4 +16,6 @@ def init_db() -> None:
     """ 
     Create tables if they do not exist.
     """
+    from health.infrastructure.models import HealthRecord
+    from iam.infrastructure.models import Device
     db.create_tables([Device, HealthRecord], safe=True)  # Replace with actual model classes when defined
